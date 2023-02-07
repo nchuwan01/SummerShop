@@ -1,5 +1,4 @@
 import "./login_css/sign_in.css";
-
 function sign_in() {
     return (
       <div id="text_form">
@@ -16,11 +15,13 @@ function sign_in() {
                 <div id="sign_button">
                     <button>Sign In</button>
                 </div>
-                <a path="/forgot" id="forgot">Forgot Password</a>
-                <a path="/create" id="create">Create Account</a>
+                <a href="/forgot" id="forgot">Forgot Password</a>
+                <a href="/create" id="create">Create Account</a>
+
 
             </div>
         </div>
+
        
       </div>
         

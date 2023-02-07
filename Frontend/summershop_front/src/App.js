@@ -1,8 +1,15 @@
-import Sign_in from "./Login/sign_in";
+import SIGN_IN from "./Login/sign_in";
+import {Link,BrowserRouter,Route,Routes} from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <Sign_in/>
+      
+      <BrowserRouter>
+        <Routes>
+            <Route path="/help" element={<SIGN_IN/>}> </Route>
+        </Routes>
+        <Link to="help"> Click ME!</Link>
+      </BrowserRouter>
         
     </div>
   );
