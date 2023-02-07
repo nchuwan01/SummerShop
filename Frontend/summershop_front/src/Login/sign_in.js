@@ -16,12 +16,11 @@ function sign_in() {
                 <div id="sign_button">
                     <button>Sign In</button>
                 </div>
-                <a id="forgot">Forgot Password</a>
-                <a id="create">Create Account</a>
+                <a path="/forgot" id="forgot">Forgot Password</a>
+                <a path="/create" id="create">Create Account</a>
 
             </div>
         </div>
-       
        
       </div>
         
