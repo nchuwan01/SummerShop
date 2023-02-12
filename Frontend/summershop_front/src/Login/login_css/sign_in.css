@@ -27,8 +27,11 @@ body
 #main_flex
 {
     display: grid;
+    background: rgba(178, 255, 155, 0.5);
+
+    border-radius: 2%;
     row-gap: 30px;
-    padding: 20px;
+    padding: 30px;
 }
 
 .label_input
@@ -54,7 +57,7 @@ body
 }
 #sign_button>button{
     height: 40px;
-    width: 30%;
+    width: 40%;
     font-size: 80%;
 }
 
