@@ -26,18 +26,23 @@ const { builtinModules } = require("module");
 
 //Production Code 
 
+const _dirname = path.dirname("")
+const buildPath = path.join(_dirname, "../Frontend/build")
+app.use(express.static(buildPath))
 
-const buildPath = path.join(__dirname, '..', 'Frontend', 'build');
-
-app.use(express.static(buildPath));
-
-app.get('*', function(req, res) {
-  res.sendFile(path.join(buildPath, 'index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
+app.get("/*", function(req,res){
+    res.sendFile(
+        path.join(_dirname,"../Frontend/build/index.html"),
+        function(err){
+            if(err){
+                if(err){
+                    res.status(500).send(err)
+                }
+            }
+                
+        }
+    )
+})
 
 
 const corsOptions = {
