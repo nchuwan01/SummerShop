@@ -1,15 +1,7 @@
+import { Link } from "react-router-dom";
 import "./login_css/sign_in.css";
 
 function sign_in() {
-
-    const jump =()=>
-    {
-        const detail = fetch("http://localhost:4000")
-        .then(res => res.json)
-        .then(res => console.log(res));
-
-    }
-        
 
     return (
    
@@ -27,17 +19,12 @@ function sign_in() {
                 <div id="sign_button">
                     <button onClick={jump}>Sign In</button>
                 </div>
-                <a href="/forgot" id="forgot">Forgot Password</a>
-                <a href="/create" id="create">Create Account</a>
-
+                <Link to="/forgot" id="forgot">Forgot Password</Link>
+                <Link to="/create" id="create">Create Account</Link>
 
             </div>
         </div>
-
-        
       </div>
-        
-
     );
   }
   
