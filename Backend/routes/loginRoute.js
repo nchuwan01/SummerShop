@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: false}));
 
 const cors = require("cors");
 const corsOptions = {
-    origin: 'https://astounding-seahorse-9ec7ff.netlify.app',
+    origin: 'http://localhost:3000/',
     credentials: true,
   };
   app.use(cors(corsOptions));
