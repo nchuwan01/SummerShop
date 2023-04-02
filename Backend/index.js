@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const bcrypt = require("bcrypt");
 const connection = require("./DatabaseFiles/database");
+
 const passport = require("passport");
 const mysql = require("mysql2");
 const validateToken = require("./middlewares/ValidTokens/validToken")
 const path = require("path")
+require("dotenv").config();
 
 //routes
 const registerRoute = require("./routes/registerRoute");
@@ -20,28 +21,32 @@ const itemByIDRoute= require("./routes/getItemByID");
 
 
 const userInfoRoute = require("./routes/userInfoRoute");
-const { builtinModules } = require("module");
 
 
 
 //Production Code 
 
+// const _dirname = path.dirname("")
+// const buildPath = path.join(_dirname, "../Frontend/build")
+// app.use(express.static(buildPath))
 
-const buildPath = path.join(__dirname, '..', 'Frontend', 'build');
-
-app.use(express.static(buildPath));
-
-app.get('*', function(req, res) {
-  res.sendFile(path.join(buildPath, 'index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
+// app.get("/*", function(req,res){
+//     res.sendFile(
+//         path.join(_dirname,"../Frontend/build/index.html"),
+//         function(err){
+//             if(err){
+//                 if(err){
+//                     res.status(500).send(err)
+//                 }
+//             }
+                
+//         }
+//     )
+// })
 
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'https://astounding-seahorse-9ec7ff.netlify.app',
     credentials: true,
   };
 app.use(cors(corsOptions));
@@ -67,13 +72,14 @@ app.use("/logout",logoutRoute)
 
 
 
-app.post("/confirm/*", (req,res) =>{
+app.get("/confirm/*", (req,res) =>{
     let confirm = req.url;
     let data = confirm.slice(9);
+    console.log(data);
     
-    connection.query(`Update Students SET verified=1 where password=(?)`,[data], async(error, result)=>{
-        if(error) res.sendStatus(404).json("Not found") 
-        else {res.redirect("http://localhost:3000/login")}
+    connection.query(`Update students SET verified=1 where password=(?)`,[data], async(error, result)=>{
+        if(error) res.json("Not found") 
+        else {res.redirect("http://localhost:3000")}
     })
 })
 
@@ -91,4 +97,4 @@ connection.connect((error)=>{
 
 
 const PORT = 4000;
-app.listen(PORT, console.log(`http://localhost:${PORT}`))
+app.listen( process.env.PORT || PORT, console.log(`http://localhost:${PORT}`))

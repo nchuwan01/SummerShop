@@ -3,10 +3,10 @@ require("dotenv").config();
 
 
 const connection = mysql.createConnection({
-    host:process.env.HOST,
-    database:process.env.DATABASE,
-    user:process.env.USER,
-    password:process.env.PASSWORD
+    host:"summershopdb.ckui2r7x2ufk.us-east-2.rds.amazonaws.com",
+    database:"SummershopDB",
+    user:"admin",
+    password:"Aurora60506!"
 })
 
 module.exports=connection;

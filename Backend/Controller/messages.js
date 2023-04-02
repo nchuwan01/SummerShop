@@ -7,7 +7,7 @@ const postMessage =  (req,res)=>{
     let message = req.body[0].message;
     let senderEmail = req.user.email;
     let itemName = req.body[0].itemName;
-    connection.query("Select email from Students where sid=(?)",[recieverID], async (error, result)=>{
+    connection.query("Select email from students where sid=(?)",[recieverID], async (error, result)=>{
         if(error) res.send(404).json("Error");
         else{
             let info = await transporter.sendMail({

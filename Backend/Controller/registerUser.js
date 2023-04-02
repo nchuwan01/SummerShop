@@ -1,5 +1,5 @@
 const connection = require("../DatabaseFiles/database");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodeMailer = require("nodemailer");
 const transporter = require("../nodeMailerTransporter/nodeMailerTransporter");
@@ -16,10 +16,11 @@ const registerUser = async(req,res) =>{
         
         if(AuMail == "@aurora.edu")
         {
-            connection.query(`select * from Students where username=(?)`,[user_name], async(error,result)=>{
+            connection.query(`select * from students where username=(?)`,[user_name], async(error,result)=>{
                 console.log(result);
                 if(error)
                 {
+                    console.log(error);
                     res.json("Error has occured from our side. Please Try Again Later");
                 }
                 else if(result.length != 0)
@@ -27,7 +28,7 @@ const registerUser = async(req,res) =>{
                     res.json("Username taken. Please try different username");
                 }
                 else{
-                    connection.query(`select * from Students where email = (?)`,[email], async(error, result)=>{
+                    connection.query(`select * from students where email = (?)`,[email], async(error, result)=>{
                         console.log(result);
                         if(error){
 
@@ -39,8 +40,8 @@ const registerUser = async(req,res) =>{
                             res.json("There's already an account associated with that email")
                         }
                         else{
-            
-                            connection.query(`Insert Into Students (username,email,password,verified) VALUES (?,?,?,false)`,[user_name,email,pass], async (error, result)=>{
+                            console.log("console here!")
+                            connection.query(`Insert into students (username,email,password,verified) VALUES (?,?,?,false)`,[user_name,email,pass], async (error, result)=>{
                                 if(error) console.log(error)
                                 else {                                    
                                     

@@ -11,7 +11,7 @@ const validateToken = (req,res,next) =>
 {    
     try{
         const accessToken = req.headers.cook;
-        console.log(accessToken);
+        console.log("It's access" + accessToken);
         if(!accessToken)
         {
             res.json("Sign In")
@@ -35,6 +35,7 @@ const validateToken = (req,res,next) =>
         }
         
     }catch(err){
+        console.log("error!")
         console.log(err);
         res.status(500).json({ error: err.message }); // show error message to client
 

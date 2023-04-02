@@ -7,6 +7,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false})); 
 
 
+const cors = require("cors");
+const corsOptions = {
+    origin: 'https://astounding-seahorse-9ec7ff.netlify.app',
+    credentials: true,
+  };
+  app.use(cors(corsOptions));
+
+
 require("dotenv").config();
 
 
