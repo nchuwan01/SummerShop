@@ -22,7 +22,6 @@ const loginValidateUser = async (req,res) =>
     const username = req.body.user_name;
 
         connection.query(`select * from students where username=(?)`,[username], async(error,result)=>{
-            console.log(result);
             if(error)
             {
                 res.json("Error with username or password")
