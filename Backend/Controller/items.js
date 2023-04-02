@@ -10,7 +10,7 @@ const getItems = (req,res)=>{
 const getItemByID= (req,res)=>{
     const id = req.params.id;
     connection.query("Select * from items where itemID=(?)",[id], (error, result) =>{
-        if(error) res.json("Error")
+        if(error) res.json(error)
         else res.json(result);
     })
 }
@@ -37,7 +37,7 @@ const postItems = (req, res) => {
         `INSERT INTO items (description, image, category, price, name,sid) VALUES (?, ?, ?, ?, ?, ?)`,
         [description, image, category, price, name, userID],
         (error, result) => {
-            if(error) {console.log(error)};
+            if(error) {res.json(error)};
             console.log(result);
             res.json("success");
         }
