@@ -46,7 +46,7 @@ const userInfoRoute = require("./routes/userInfoRoute");
 
 
 const corsOptions = {
-    origin: 'https://astounding-seahorse-9ec7ff.netlify.app',
+    origin: 'https://main.demex2y9pjyc1.amplifyapp.com',
     credentials: true,
   };
 app.use(cors(corsOptions));
