@@ -3,6 +3,8 @@ import {useNavigate, useParams } from "react-router-dom";
 import "./CardModal.css";
 import axios from "axios";
 import cookies from "js-cookie"
+import {APILocation} from "../../httpAPILocation/httpLocation";
+
 
 
 function CardModal()
@@ -28,7 +30,7 @@ function CardModal()
     const fetchData = async () => {
       try {
         // Get item details
-        const itemRes = await axios.get(`http://18.191.202.74:4000/login/item/${itemId}`);
+        const itemRes = await axios.get(`${APILocation}/login/item/${itemId}`);
         const { sid, name, description, price, image } = itemRes.data[0];
         setSid(sid);
         setName(name);
@@ -37,16 +39,14 @@ function CardModal()
         setImage(image);
   
         // Get poster details
-        const userRes = await axios.get(`http://18.191.202.74:4000/login/user/${sid}`);
+        const userRes = await axios.get(`${APILocation}/login/user/${sid}`);
          setPoster(userRes.data);
   
         // Check if the logged-in user is the owner of the item
-        const resultRes = await axios.get('http://18.191.202.74:4000/login', {
-          headers: {
+        const resultRes = await axios.get(`${APILocation}/login`,{
             withCredentials: true,
-            cook: cookies.get('access-token')
           }
-        });
+        );
         const resultData = resultRes.data;
         console.log("result data: ",resultData)
         if (resultData === userRes.data) {
@@ -63,11 +63,10 @@ function CardModal()
       function handleSubmit(event)
       {   
         event.preventDefault();     
-        axios.post("http://18.191.202.74:4000/login/message",[{ "sid":sid, "message": message, "itemName": name} ], {
-          headers: {
-            withCredentials: true,
-            cook: cookies.get("access-token")
-        }})
+        axios.post(`${APILocation}/login/message`,[{ "sid":sid, "message": message, "itemName": name} ], 
+          {
+            withCredentials: true        
+          })
         .then(res =>{
           console.log(res.data);
           if(document.getElementById("message")==null){
@@ -81,6 +80,7 @@ function CardModal()
             {
               
               text = document.createTextNode("Email Has Been Sent");
+              document.getElementById("sendMessageButton").value = " ";
               newDiv.style.color = "green";
             }
 
@@ -97,10 +97,9 @@ function CardModal()
       function deletePost()
       {
         console.log(cookies.get("access-token"));
-        axios.get("http://18.191.202.74:4000/login/delete/"+itemId, { headers: {
+        axios.get(`${APILocation}/login/delete/`+itemId, {
             withCredentials: true,
-            cook: cookies.get("access-token")
-          }})
+          })
         .then(res=>{
           navigate(-1);  
 
@@ -112,7 +111,7 @@ function CardModal()
           <div className="row g-3 modalCardDiv" >
             <div className="col-sm-7 detailCard">
               <div className="modalDivs">
-                {image ? <img className="innerImg modalImage" src={`http://18.191.202.74:4000/images/${image}`} alt={name}/>
+                {image ? <img className="innerImg modalImage" src={`${APILocation}/images/${image}`} alt={name}/>
                   : <div>Loading....</div>}
               </div>
               {owner ? <form id="modalForm" onSubmit={handleSubmit}>
@@ -120,9 +119,9 @@ function CardModal()
                   <textarea maxLength="150" onChange={(e)=>{setMessage(e.target.value)}} id="textAreaModal" placeholder="Ex: Hey, I would love to purchase this. Please Email Me Back!(Max 150 characters)" required></textarea>
                 </div>
                 <div className="modalDivs">
-                  <button id="sendMessageButton" type="submit" className="btn btn-outline-primary">Send Message to {poster}'s Email</button>
+                  <button id="sendMessageButton" type="submit" className="btn btn-outline-primary">Send Message to {poster}</button>
                 </div>
-              </form> : <div className="modalDivs"> <button onClick={()=> deletePost()} id="deletePost" className="btn btn-outline-danger">Delete</button> </div>};
+              </form> : <div className="modalDivs"> <button onClick={()=> deletePost()} id="deletePost" className="btn btn-outline-danger">Delete</button> </div>}
               <div className="modalDivs">
                 <div className="card-text" id="descriptionParagraph">{name}</div>
               </div>

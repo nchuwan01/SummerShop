@@ -1,7 +1,6 @@
 const connection = require("../DatabaseFiles/database");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const nodeMailer = require("nodemailer");
 const transporter = require("../nodeMailerTransporter/nodeMailerTransporter");
 
 
@@ -51,9 +50,9 @@ const registerUser = async(req,res) =>{
                                         from:"summershop2023.2024@gmail.com",
                                         to:email,
                                         subject: "Summershop Username and Password",
-                                        html: `<p1>Please save your username and password. <p1>. \n`
-                                                    +` <h3>Your username is:<h3> <h2> ${user_name} </h2>. <h3>Your Password is:<h3><h2> ${password} </h2> 
-                                                    Here is your confirmation link: <a href="http://localhost:4000/confirm/${pass}"> Please confirm your account by clicking on this link</a>`
+                                        html: `<p1>Please save your username and password. \n`
+                                                    +` Your username is: ${user_name}. Your Password is: ${password}. </p> 
+                                                    Here is your confirmation link: <a href="https://3.145.154.246/confirm/${pass}">Confirm Account</a>`
                                     }).then(result =>{
                                         console.log(result);
                                     })

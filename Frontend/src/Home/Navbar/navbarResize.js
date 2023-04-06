@@ -7,6 +7,7 @@ import Logo from "../../images/logoBg.png";
 import {faBook, faComputer, faHouse, faPlus, faBarsStaggered, faMoneyBill} from "@fortawesome/free-solid-svg-icons";
 import "./navbarResizeStyle.css";
 import cookies from "js-cookie";
+import {APILocation} from "../../httpAPILocation/httpLocation";
 
 
 
@@ -21,7 +22,7 @@ function NavbarResize() {
     }
     function logoutClicked()
     {
-      axios.post("http://18.191.202.74:4000/logout")
+      axios.post(`${APILocation}/logout`)
       .then(res =>{
         cookies.remove("access-token");
         navigate("/");
@@ -34,20 +35,20 @@ function NavbarResize() {
     }
   
   
-    axios.get("http://18.191.202.74:4000/login/", {
-      headers: {
-        withCredentials: true,
-        cook: cookies.get("access-token")
-    }})
+    axios.get(`${APILocation}/login`, {
+        withCredentials: true    
+      })
     .then(result => {
       if(result.data)
       {
         if(result.data === "Sign In")
         {
-          setUsername("Sign In")
+          setUsername(result.data)
+          console.log("From sign in ",result.data)
         }
         else
         {
+          console.log("from logged in " ,result.data)
           setUsername(result.data);
         }
       }
@@ -112,7 +113,7 @@ function NavbarResize() {
                 <div className="middleDiv">
     
                     <li className="nav-item active">
-                        {username==="Sign In" ? <Link to="/"><button className="btn btn-outline-primary"> Sign In</button></Link> : <small>Welcome, {username}! <button className="btn btn-outline-secondary" onClick={()=>{logoutClicked()}}>Sign Out</button></small> }
+                        {username==="Sign In"?<Link to="/"><button className="btn btn-outline-primary"> Sign In</button></Link> : <small>Welcome, {username}! <button className="btn btn-outline-secondary" onClick={()=>{logoutClicked()}}>Sign Out</button></small> }
                     </li>
                 </div>
             </div>

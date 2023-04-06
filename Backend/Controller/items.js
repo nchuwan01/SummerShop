@@ -10,7 +10,7 @@ const getItems = (req,res)=>{
 const getItemByID= (req,res)=>{
     const id = req.params.id;
     connection.query("Select * from items where itemID=(?)",[id], (error, result) =>{
-        if(error) res.json(error)
+        if(error) res.json("Error")
         else res.json(result);
     })
 }
@@ -25,19 +25,20 @@ const deleteItem = (req,res)=>{
 
 const postItems = (req, res) => {
 
+
     let userID = req.user.userID;
-    let image = (req.file.path).split("\\")[2];
+    let image = (req.file.filename);
     let name = req.body.name;
     let description= req.body.description;
     let price = req.body.price;
     let category = req.body.category;
-    console.log("Is it this "+ req.user.userID)
+    console.log("Is it this ", image)
 
     connection.query(
         `INSERT INTO items (description, image, category, price, name,sid) VALUES (?, ?, ?, ?, ?, ?)`,
         [description, image, category, price, name, userID],
         (error, result) => {
-            if(error) {res.json(error)};
+            if(error) {console.log(error)};
             console.log(result);
             res.json("success");
         }

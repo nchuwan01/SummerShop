@@ -3,7 +3,7 @@ import "./login_css/sign_in.css";
 import Logo from "./../images/logoBg.png";
 import { useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { APILocation } from '../httpAPILocation/httpLocation';
 
 function Sign_In() {
   const[username, setUsername] = useState("");
@@ -17,9 +17,11 @@ function Sign_In() {
       user_name: username,
       password: password
     }
-    axios.post("http://18.191.202.74:4000/login", data,{
+    axios.post(`${APILocation}/login`, data,{
       withCredentials: true,
-      cook: Cookies.get("access-token")
+      headers: {
+        'Access-Control-Allow-Origin': true,
+      }
     })
     .then(res =>{
       if(res.data.detail)
@@ -43,7 +45,7 @@ function Sign_In() {
 
           <div id="main_flex">
               <div id="img_div">
-                <img id="logo_img" alt="SummerShop Logo" src={Logo}/>
+                <Link to="/login/textbooks"><img id="logo_img" alt="SummerShop Logo" src={Logo}/></Link>
               </div>
               <div className="label_input">
                   <label>Username: </label>

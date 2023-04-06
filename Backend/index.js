@@ -2,11 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connection = require("./DatabaseFiles/database");
-
+const fs = require("fs");
 const passport = require("passport");
 const mysql = require("mysql2");
 const validateToken = require("./middlewares/ValidTokens/validToken")
 const path = require("path")
+const https = require("https");
 require("dotenv").config();
 
 //routes
@@ -45,8 +46,16 @@ const userInfoRoute = require("./routes/userInfoRoute");
 // })
 
 
+const key= fs.readFileSync("private.key");
+const cert = fs.readFileSync("certificate.crt");
+const cred = {
+   key,
+    cert
+}
+
 const corsOptions = {
-    origin: 'https://main.demex2y9pjyc1.amplifyapp.com',
+   //origin: "http://localhost:3000",
+   origin: 'https://main.demex2y9pjyc1.amplifyapp.com',
     credentials: true,
   };
 app.use(cors(corsOptions));
@@ -57,7 +66,10 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended: false}));
 
-    
+
+const file = fs.readFileSync("./14A57A60BDB4957D156BFD2A00FB0EEC.txt")
+
+
 app.use("/register", registerRoute);
 
 app.use("/login", loginRoute)
@@ -71,6 +83,9 @@ app.use("/login/item", itemByIDRoute)
 app.use("/logout",logoutRoute)
 
 
+// app.get("/.well-known/pki-validation/14A57A60BDB4957D156BFD2A00FB0EEC.txt", (req,res)=>{
+//     res.sendFile("/home/ubuntu/SummerShop/Backend/14A57A60BDB4957D156BFD2A00FB0EEC.txt");
+// })
 
 app.get("/confirm/*", (req,res) =>{
     let confirm = req.url;
@@ -79,7 +94,7 @@ app.get("/confirm/*", (req,res) =>{
     
     connection.query(`Update students SET verified=1 where password=(?)`,[data], async(error, result)=>{
         if(error) res.json("Not found") 
-        else {res.redirect("http://localhost:3000")}
+        else {res.redirect("https://main.demex2y9pjyc1.amplifyapp.com")}
     })
 })
 
@@ -96,5 +111,8 @@ connection.connect((error)=>{
 
 
 
-const PORT = 4000;
-app.listen( process.env.PORT || PORT, console.log(`http://localhost:${PORT}`))
+const PORT = 4001;
+app.listen(PORT, console.log(`running on port ${PORT}`))
+
+const httpsServer = https.createServer(cred, app);
+httpsServer.listen(8443);

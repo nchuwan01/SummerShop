@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from "../../images/logoBg.png";
 import {faBook, faComputer, faHouse, faMoneyBill, faPlus,faBars} from "@fortawesome/free-solid-svg-icons";
 import "./styleNavBar.CSS";
-import cookies from "js-cookie";
+import {APILocation} from "../../httpAPILocation/httpLocation";
 
 
 
@@ -17,11 +17,9 @@ function HomePage_Nav() {
 
   function logoutClicked()
   {
-    axios.post("http://18.191.202.74:4000/logout")
+    axios.post(`${APILocation}/logout`)
     .then(res =>{
-      cookies.remove("access-token");
-      navigate("/");
-      
+      navigate("/");      
     })
     .catch(err=>{
       navigate("/");
@@ -30,11 +28,12 @@ function HomePage_Nav() {
   }
 
 
-  axios.get("http://18.191.202.74:4000/login", {
-    headers: {
+  axios.get(`${APILocation}/login`,  {
       withCredentials: true,
-      cook: cookies.get("access-token")
-  }})
+      headers: {
+        'Access-Control-Allow-Origin': true,
+      }
+    })
   .then(result => {
     if(result.data)
     {
